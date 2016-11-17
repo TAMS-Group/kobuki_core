@@ -65,6 +65,7 @@ Kobuki::Kobuki() :
  */
 Kobuki::~Kobuki()
 {
+  setLaserScannerEnabled(false);
   disable();
   shutdown_requested = true; // thread's spin() will catch this and terminate
   thread.join();
@@ -135,8 +136,26 @@ void Kobuki::init(Parameters &parameters) throw (ecl::StandardException)
   controller_info_reminder = 10;
   sendCommand(Command::GetControllerGain());
   //sig_controller_info.emit(); //emit default gain
+  
+  setLaserScannerEnabled(true);
 
   thread.start(&Kobuki::spin, *this);
+}
+
+/**
+ * Sets the external power of the laser scanner to 'enabled' and toggles
+ * notification led.
+ */
+void Kobuki::setLaserScannerEnabled(bool enabled)
+{
+  //Set external power and led
+  DigitalOutput digital_output;
+  digital_output.values[2] = enabled;
+  digital_output.mask[2] = true;
+  setExternalPower(digital_output); 
+  // LedNumber: Led1, Led2
+  // LedColour: Black, Red, Green, Orange
+  setLed(LedNumber.Led1, enabled ? LedColor.Green : LedColour.Red);
 }
 
 /*****************************************************************************
