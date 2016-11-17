@@ -100,6 +100,7 @@ public:
   bool enable(); /**< Enable power to the motors. **/
   bool disable(); /**< Disable power to the motors. **/
   void shutdown() { shutdown_requested = true; } /**< Gently terminate the worker thread. **/
+  void setLaserScannerEnabled(bool value);
 
   /******************************************
   ** Packet Processing

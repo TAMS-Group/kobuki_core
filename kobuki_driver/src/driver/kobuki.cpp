@@ -155,7 +155,7 @@ void Kobuki::setLaserScannerEnabled(bool enabled)
   setExternalPower(digital_output); 
   // LedNumber: Led1, Led2
   // LedColour: Black, Red, Green, Orange
-  setLed(LedNumber.Led1, enabled ? LedColor.Green : LedColour.Red);
+  setLed(LedNumber::Led1, enabled ? LedColour::Green : LedColour::Red);
 }
 
 /*****************************************************************************
